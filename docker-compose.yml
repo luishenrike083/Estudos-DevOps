@@ -1,0 +1,22 @@
+# Define os serviços (contêineres) que compõem a aplicação.
+services:
+  # Nome do serviço, pode ser qualquer um. 'api' é descritivo.
+  app:
+    # Configurações de build da imagem.
+    build: .
+    container_name: api
+      # O contexto de build é o diretório atual (onde o docker-compose.yml está).
+    # Mapeia a porta 8000 do contêiner para a porta 8000 da máquina host.
+    # Isso permite acessar a API em http://localhost:8000.
+    ports:
+      - "8000:8000"
+    # Monta o diretório atual do host no diretório /app do contêiner.
+    # Isso é crucial para o desenvolvimento, pois qualquer alteração no código
+    # no host será refletida instantaneamente dentro do contêiner,
+    # permitindo que o Uvicorn com --reload (definido no Dockerfile) 
+    # reinicie o servidor automaticamente.
+    # O banco de dados SQLite (escola.db) também será persistido no host.
+    volumes:
+      - .:/app
+    # O comando para iniciar a aplicação é herdado do CMD no Dockerfile.
+    # Não é necessário redefinir o comando aqui para o desenvolvimento.
